@@ -56,7 +56,7 @@ public class BlockChain {
                 bloqueTemporal.setTransaccion("0000GeNeSiS", cliente, paciente);
             }
             this.blockChain.add(bloqueTemporal);
-            //this.minarBloque();
+            this.minarBloque();
             return true;
         }
         
@@ -67,7 +67,7 @@ public class BlockChain {
         if(this.blockChain.size() < 1){
             Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
             this.blockChain.add(bloqueTemporal);
-            //this.minarBloque();
+            this.minarBloque();
             return true;
         }
         
@@ -83,5 +83,96 @@ public class BlockChain {
         );
     }
     
-    //El siguiente método de crear es getBalance
+    //El método getBalance en nuestro proyecto no aplica
+    
+    public boolean getPruebaDeTrabajo_overBlock(Bloque bloque){
+        String cadena = bloque.toString();
+        int nonce = bloque.getNonce();
+        String hash = "";
+        
+        hash = this.generarHash(cadena + Integer.toString(nonce));
+        
+        if(hash.equals(bloque.getHash())){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public boolean añadirBloqueVerificado(Bloque bloque){
+        if(!this.bloqueExistente(bloque)){
+            if(this.getPruebaDeTrabajo_overBlock(bloque)){
+                this.blockChain.add(bloque);                
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    public void minarBloque(){
+        String cadena = this.blockChain.get(this.blockChain.size() - 1).toString();
+        int nonce = 0;
+        String hash = "";
+        
+        while(true){
+            hash = this.generarHash(cadena + Integer.toString(nonce));
+            
+            if(hash.subSequence(0, this.complejidad).equals(this.pruebaDeTrabajo)){
+                this.blockChain.get(this.blockChain.size() - 1).registro(nonce, hash);
+                break;
+            }
+            
+            nonce++;
+        }
+    }
+    
+    private String generarHash(String cadena){
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(cadena.getBytes("UTF-8"));
+            StringBuffer stringHexadecimal = new StringBuffer();
+            
+            for(int i = 0; i < hash.length; i++){
+                String hexadecimal = Integer.toHexString(0xff & hash[i]);
+                
+                if(hexadecimal.length() == 1){
+                    stringHexadecimal.append('0');                    
+                }
+                
+                stringHexadecimal.append(hexadecimal);
+            }
+            
+            return stringHexadecimal.toString();
+        } 
+        catch (Exception ex) {
+            return null;
+        }
+    }
+    
+    public String reporteDeTransaccion(int numeroDeBloque){
+        String cadena = "";
+        Bloque bloque = this.blockChain.get(numeroDeBloque);
+        
+        for(int i = 0; i < bloque.cantidadTransacciones(); i++){
+            cadena += "\t Transacción #" + Integer.toString(bloque.getTransaccion(i).getID()) + 
+                      ": " + bloque.getTransaccion(i).getPaciente().getNombre() + " " + bloque.getTransaccion(i).getPaciente().getPadecimiento() + ".\t(" + 
+                      bloque.getTransaccion(i).getEmisor() + " ---> " + 
+                      bloque.getTransaccion(i).getReceptor() + ")\n";
+        }
+        
+        return cadena;
+    }
+    
+    @Override
+    public String toString(){
+        String blockChain = "";
+        
+        for(Bloque bloque : this.blockChain){
+            blockChain += bloque.toString() + "\n";
+        }
+        
+        return blockChain;
+    }
 }
