@@ -4,8 +4,10 @@
  */
 package Formularios;
 import BlockChain.BlockChain;
+import BlockChain.Bloque;
 import BlockChain.Cifrado;
 import BlockChain.NodeData;
+import BlockChain.Paciente;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -68,18 +70,41 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         lblDirecciónIP = new javax.swing.JLabel();
         lblNumeroSocket = new javax.swing.JLabel();
         lblNodosExistentes = new javax.swing.JLabel();
+        lblUbicacion = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        btnResumen = new javax.swing.JButton();
+        Pane1 = new javax.swing.JScrollPane();
+        txtMensajes = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(650, 450));
 
-        lblNombreNodo.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblNombreNodo.setText(".");
+        lblNombreNodo.setText("Nombre del servidor:");
 
         lblDirecciónIP.setText("Dirección IP:");
 
         lblNumeroSocket.setText("Número de Socket:");
 
         lblNodosExistentes.setText("Nodos existentes:");
+
+        lblUbicacion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUbicacion.setText("Ubicación del servidor:");
+
+        jLabel1.setText("Acciones y mensajes de BlockChain:");
+
+        jButton1.setText("Balances");
+
+        btnResumen.setText("Resumen");
+        btnResumen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResumenActionPerformed(evt);
+            }
+        });
+
+        txtMensajes.setColumns(20);
+        txtMensajes.setRows(5);
+        Pane1.setViewportView(txtMensajes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,20 +114,34 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(Pane1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDirecciónIP)
                             .addComponent(lblNumeroSocket))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblNombreNodo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 257, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 151, Short.MAX_VALUE)
                         .addComponent(lblNodosExistentes)
-                        .addGap(289, 289, 289))))
+                        .addGap(289, 289, 289))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUbicacion)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnResumen)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lblUbicacion)
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombreNodo)
                     .addComponent(lblNodosExistentes))
@@ -110,12 +149,94 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 .addComponent(lblDirecciónIP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblNumeroSocket)
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(btnResumen))
+                .addGap(13, 13, 13)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnResumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResumenActionPerformed
+        // TODO add your handling code here:
+        String cadena = "";
+        
+        for(int i = 0; i < this.blockChain.getCantidadBloques(); i++){
+            cadena += "Bloque: " + this.blockChain.getBloque(i).getID() + ". " +
+                      this.blockChain.reporteDeTransaccion(this.blockChain.getBloque(i).getID()) + 
+                      "--------------------------------------\n";
+        }
+        
+        this.txtMensajes.setText(cadena);
+    }//GEN-LAST:event_btnResumenActionPerformed
+
+    private void iniciarServidor(){
+        this.blockChain = new BlockChain(3, "0");
+        this.blockChain.crearBloqueGenesis();
+        
+        try {
+            InetAddress direccionIP = InetAddress.getByName(this.nodoActual.getDireccionIP());
+            InetSocketAddress redServidor = new InetSocketAddress(direccionIP, this.nodoActual.getNumeroDeSocket());
+            this.serverSocket = new ServerSocket();
+            this.serverSocket.bind(redServidor);
+            this.tListener = new Thread(this);
+            this.tListener.start();
+        } 
+        catch (Exception ex) {
+            
+        }
+    }
+    
+    public void setBlockChainCopia(BlockChain blockChainCopia){
+        this.blockChain = blockChainCopia;
+    }
+    
+    public BlockChain getBlockChainCopia(){
+        return this.blockChain;
+    }
+    
+    public int getTamañoBlockChain(){
+        return this.blockChain.getCantidadBloques();
+    }
+    
+    public void iniciarCuentaDeUsuario(NodeData nodoCliente, Paciente paciente){
+        this.blockChain.crearBloque();
+        this.blockChain.getUltimoBloque().setTransaccion("000BLOQUE000INICIAL", nodoCliente.getNombreDelNodo(), paciente);
+        this.blockChain.minarBloque();
+    }
+    
+    public void registrarClientes(ArrayList<NodeData> listadoClientes){
+        this.listadoClientes = listadoClientes;
+    }
+    
+    public boolean bloqueBroadcast(Bloque bloque){
+        try {
+            for(int i = 0; i < this.listadoServidores.size(); i++){
+                Socket socket = new Socket(
+                        this.listadoServidores.get(i).getDireccionIP(),
+                        this.listadoServidores.get(i).getNumeroDeSocket()
+                );
+                
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectOutputStream.writeObject(bloque);
+                socket.close();
+            }
+            
+            return true;
+        } 
+        catch (Exception e) {
+            
+        }
+        
+        return false;
+    }    
+    
     /**
      * @param args the command line arguments
      */
@@ -153,7 +274,57 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        while(true){
+            try {
+                Socket socket = this.serverSocket.accept();
+                
+                InputStream inputStream = socket.getInputStream();
+                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+                Bloque bloque = (Bloque) objectInputStream.readObject();
+                socket.close();
+                
+                if(bloque.getID() < 0){
+                    String emisor = this.cifrado.desencriptar(bloque.getTransaccion(0).getEmisor());
+                    String receptor = this.cifrado.desencriptar(bloque.getTransaccion(0).getReceptor());
+                    Paciente paciente = bloque.getTransaccion(0).getPaciente();
+                    
+                    Bloque bloqueTemporal = new Bloque();
+                    bloqueTemporal.setTransaccion(emisor, receptor, paciente);
+                    
+                    this.blockChain.crearBloque();
+                    this.blockChain.getUltimoBloque().setTransaccion(bloqueTemporal.getTransaccion(0));
+                    this.blockChain.minarBloque();
+                    this.bloqueBroadcast(this.blockChain.getUltimoBloque());
+                    //this.reportarNuevoPaciente(receptor, paciente);
+                }
+                else{
+                    this.blockChain.añadirBloqueVerificado(bloque);
+                }
+            } 
+            catch (Exception ex) {
+                
+            }
+        }            
+    }
+    
+    public void reportarNuevoPaciente(String receptor, Paciente paciente){
+        for(int i = 0; i < this.listadoClientes.size(); i++){
+            if(this.listadoClientes.get(i).getNombreDelNodo().equals(receptor)){
+                try {
+                    Socket socket = new Socket(
+                            this.listadoClientes.get(i).getDireccionIP(),
+                            this.listadoClientes.get(i).getNumeroDeSocket()
+                    );
+                    
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                    objectOutputStream.writeObject(paciente);
+                    socket.close();
+                } 
+                catch (Exception ex) {
+                    
+                }
+            }
+        }
     }
     
     public void registrarRed(ArrayList<NodeData> nodos){
@@ -174,9 +345,15 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane Pane1;
+    private javax.swing.JButton btnResumen;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDirecciónIP;
     private javax.swing.JLabel lblNodosExistentes;
     private javax.swing.JLabel lblNombreNodo;
     private javax.swing.JLabel lblNumeroSocket;
+    private javax.swing.JLabel lblUbicacion;
+    private javax.swing.JTextArea txtMensajes;
     // End of variables declaration//GEN-END:variables
 }

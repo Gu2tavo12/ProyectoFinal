@@ -40,6 +40,10 @@ public class BlockChain {
         return false;
     }
     
+    public int getCantidadBloques(){
+        return this.blockChain.size();
+    }
+    
     public Bloque getBloque(int indice){
         return this.blockChain.get(indice);
     }
