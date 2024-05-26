@@ -50,7 +50,7 @@ public class BlockChain {
     
     public boolean crearBloqueGenesis(Paciente paciente, String cliente){
         if(this.blockChain.size() < 1){
-            Bloque bloqueTemporal = new Bloque(0, "000000000000000000000000"); //Falta 0's
+            Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
             
             if(paciente != null){
                 bloqueTemporal.setTransaccion("0000GeNeSiS", cliente, paciente);
@@ -65,7 +65,7 @@ public class BlockChain {
     
     public boolean crearBloqueGenesis(){
         if(this.blockChain.size() < 1){
-            Bloque bloqueTemporal = new Bloque(0, "000000000000000000000000");
+            Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
             this.blockChain.add(bloqueTemporal);
             //this.minarBloque();
             return true;
@@ -73,4 +73,15 @@ public class BlockChain {
         
         return false;
     }
+    
+    public void crearBloque(){
+        String hashPrevio = this.blockChain.get(this.blockChain.size() - 1).getHash();
+        this.blockChain.add(
+                new Bloque(
+                        this.blockChain.size(), hashPrevio
+                )        
+        );
+    }
+    
+    //El siguiente método de crear es getBalance
 }
