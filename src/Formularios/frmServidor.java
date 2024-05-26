@@ -54,7 +54,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         this.lblDirecciónIP.setText(this.nodoActual.getDireccionIP());
         this.lblNumeroSocket.setText(Integer.toString(this.nodoActual.getNumeroDeSocket()));
         
-        //this.iniciarServidor();        
+        this.iniciarServidor();        
     }
 
     /**
@@ -295,7 +295,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                     this.blockChain.getUltimoBloque().setTransaccion(bloqueTemporal.getTransaccion(0));
                     this.blockChain.minarBloque();
                     this.bloqueBroadcast(this.blockChain.getUltimoBloque());
-                    //this.reportarNuevoPaciente(receptor, paciente);
+                    this.reportarNuevoPaciente(receptor, paciente);
                 }
                 else{
                     this.blockChain.añadirBloqueVerificado(bloque);
