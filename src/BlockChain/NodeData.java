@@ -17,6 +17,12 @@ public class NodeData {
         
     }
     
+    public NodeData(String nombreDelNodo, String direccionIP, int numeroDeSocket){
+        this.nombreDelNodo = nombreDelNodo;
+        this.direccionIP = direccionIP;
+        this.numeroDeSocket = numeroDeSocket;
+    }
+    
     public String getNombreDelNodo(){
         return this.nombreDelNodo;
     }

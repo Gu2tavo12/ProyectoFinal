@@ -37,6 +37,8 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
      */
     public frmServidor() {
         initComponents();
+        
+        this.setLocationRelativeTo(null);
     }
     
     public frmServidor(NodeData nodeData){
@@ -54,7 +56,8 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         this.lblDirecciónIP.setText(this.nodoActual.getDireccionIP());
         this.lblNumeroSocket.setText(Integer.toString(this.nodoActual.getNumeroDeSocket()));
         
-        this.iniciarServidor();        
+        this.iniciarServidor();
+        this.setLocationRelativeTo(null);        
     }
 
     /**
@@ -78,7 +81,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         txtMensajes = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(650, 450));
 
         lblNombreNodo.setText("Nombre del servidor:");
 
@@ -94,6 +96,11 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         jLabel1.setText("Acciones y mensajes de BlockChain:");
 
         jButton1.setText("Balances");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnResumen.setText("Resumen");
         btnResumen.addActionListener(new java.awt.event.ActionListener() {
@@ -175,6 +182,10 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         
         this.txtMensajes.setText(cadena);
     }//GEN-LAST:event_btnResumenActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void iniciarServidor(){
         this.blockChain = new BlockChain(3, "0");

@@ -38,14 +38,14 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
+        this.setLocationRelativeTo(null);
     }
     
-    public void configurar(NodeData nodoCliente, Paciente paciente){
+    public void configurar(NodeData nodoCliente){
         this.nodeData = nodoCliente;
-        this.pacienteActual = paciente;
         this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ". Socket: " + this.nodeData.getNumeroDeSocket());
         this.lblUsuario.setText(this.nodeData.getNombreDelNodo());
-        this.iniciarCliente();
+        this.iniciarCliente();        
     }
     
     public void regitrarServidores(ArrayList<NodeData> listadoServidores){

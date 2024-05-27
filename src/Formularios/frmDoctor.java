@@ -3,19 +3,84 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Formularios;
+import BlockChain.Bloque;
+import BlockChain.Cifrado;
+import BlockChain.NodeData;
+import BlockChain.Paciente;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Jimmy
  */
-public class frmDoctor extends javax.swing.JFrame {
-
+public class frmDoctor extends javax.swing.JFrame implements Runnable {
+    private NodeData nodeData;
+    private ArrayList<NodeData> listadoServidores;
+    private Paciente pacienteActual;
+    private ServerSocket socketCliente;
+    private Thread tListener;
+    private Cifrado cifrado;
+    private DefaultTableModel modeloPacientes;
+    private ArrayList<Paciente> listadoPacientes;
+    
     /**
      * Creates new form frmDoctor
      */
     public frmDoctor() {
         initComponents();
+        
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
+        this.modeloPacientes = (DefaultTableModel) this.jtPacientes.getModel();
+        this.listadoPacientes = new ArrayList<>();
+        this.setLocationRelativeTo(null);
     }
+    
+    public void configurar(NodeData nodoCliente){
+        this.nodeData = nodoCliente;
+        this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ". Socket: " + this.nodeData.getNumeroDeSocket());
+        this.lblUsuario.setText(this.nodeData.getNombreDelNodo());
+        this.iniciarCliente();
+    }
+    
+    private void iniciarCliente(){
+        try {
+            InetAddress inetAddress = InetAddress.getByName(this.nodeData.getDireccionIP());
+            InetSocketAddress redSocket = new InetSocketAddress(inetAddress, this.nodeData.getNumeroDeSocket());
+            this.socketCliente = new ServerSocket();
+            this.tListener = new Thread(this);
+            this.tListener.start();
+        } 
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void cargarTablaPacientes(){
+        this.modeloPacientes.setRowCount(0);
+        
+        for(int i = 0; i < this.listadoPacientes.size(); i++){
+            String[] pacienteData = {
+                this.listadoPacientes.get(i).getNombre(),
+                Integer.toString(this.listadoPacientes.get(i).getEdad()),
+                Double.toString(this.listadoPacientes.get(i).getPeso()),
+                this.listadoPacientes.get(i).getFechaNacimiento(),
+                this.listadoPacientes.get(i).getPadecimiento()
+            };
+            
+            this.modeloPacientes.addRow(pacienteData);    
+        }
+    }          
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,17 +91,64 @@ public class frmDoctor extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtPacientes = new javax.swing.JTable();
+        lblDireccionIPYSocket = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jtPacientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Edad", "Peso", "Fecha de nacimiento", "Padecimiento"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtPacientes);
+
+        lblDireccionIPYSocket.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblDireccionIPYSocket.setText("Dirección IP / Socket:");
+
+        lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblUsuario.setText("Usuario:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUsuario)
+                            .addComponent(lblDireccionIPYSocket))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 482, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(lblUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDireccionIPYSocket)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -78,5 +190,28 @@ public class frmDoctor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jtPacientes;
+    private javax.swing.JLabel lblDireccionIPYSocket;
+    private javax.swing.JLabel lblUsuario;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        while(true){
+            try {
+                Socket socket = this.socketCliente.accept();
+            
+                InputStream inputStream = socket.getInputStream();
+                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+                this.pacienteActual = (Paciente) objectInputStream.readObject();
+                this.listadoPacientes.add(this.pacienteActual);
+                this.cargarTablaPacientes();
+                socket.close();
+            } 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
 }
