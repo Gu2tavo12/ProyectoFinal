@@ -21,7 +21,7 @@ public class Paciente {
     
     public Paciente(String nombre, int edad, double peso, String fechaNacimiento, String padecimiento){
         try {
-            this.formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            this.formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
             
             this.nombre = nombre;
             this.edad = edad;
@@ -47,7 +47,7 @@ public class Paciente {
     }
     
     public String getFechaNacimiento(){
-        this.formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        this.formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         
         return this.formatoFecha.format(this.fechaNacimiento);
     }

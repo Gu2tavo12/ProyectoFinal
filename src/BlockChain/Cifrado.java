@@ -38,16 +38,15 @@ public class Cifrado {
         }
     }
     
-//    public Block CifrarBloque(Block pBlk){
-//        try{
-//            pBlk.toString();
-//            return null;
-//        }
-//        catch (Exception e)
-//        {
-//            return null;
-//        }
-//    }
+    public Bloque cifrarBloque(Bloque bloque){
+        try{
+            bloque.toString();
+            return null;
+        }
+        catch (Exception ex){
+            return null;
+        }
+    }
        
     public String encriptar(String pCadena) throws Exception {
         byte[] aBytes = pCadena.getBytes("UTF-8");

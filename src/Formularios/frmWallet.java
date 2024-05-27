@@ -18,31 +18,31 @@ public class frmWallet extends javax.swing.JFrame {
      * Creates new form frmWallet
      */
     private NodeData nodeData;
-    private ArrayList<NodeData> aServers;
-    private Paciente oPaciente;
+    private ArrayList<NodeData> listadoServidores;
+    private Paciente paciente;    
+    private Cifrado cifrado;
     
-    private Cifrado oCifrado;
     public frmWallet() {
         initComponents();
         
-        oCifrado = new Cifrado("¡¡Soltala Erika soltala!!");
+        cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
     }
     
-    public void configure(NodeData nodeCliente, Paciente paciente){
+    public void configuracion(NodeData nodeCliente, Paciente paciente){
         this.nodeData = nodeCliente;
-        this.oPaciente = paciente;
-        this.jLabel2.setText("IP: "+this.nodeData.getDireccionIP()+". socket" + this.nodeData.getNumeroDeSocket());
-        this.jLabel3.setText(this.nodeData.getNombreDelNodo());
+        this.paciente = paciente;
+        this.lblDireccionIP.setText("IP: "+this.nodeData.getDireccionIP()+". socket" + this.nodeData.getNumeroDeSocket());
+        this.lblNombreDelNodo.setText(this.nodeData.getNombreDelNodo());
     }
     
-    public void registerServers(ArrayList<NodeData> aNodeServer){
+    public void registrarServidores(ArrayList<NodeData> aNodeServer){
         
     }
     
-    public boolean sendTransaction(){
+    public boolean enviarTransaccion(){
         String sNode = this.nodeData.getNombreDelNodo();
-        String sReceiver = this.txtSend.getText().trim().toUpperCase();
-        oPaciente.getNombre();
+        String sReceiver = this.txtReceptor.getText().trim().toUpperCase();
+        this.paciente.getNombre();
         
         String nUsuario = this.txtPaciente.getText();
         
@@ -51,10 +51,9 @@ public class frmWallet extends javax.swing.JFrame {
         
         if(nUsuario != ""){
             try{
-                sNode= this.oCifrado.encriptar(sNode);
-                sReceiver = this.oCifrado.encriptar(sReceiver);
-                Bloque blk = new Bloque();
-                
+                sNode= this.cifrado.encriptar(sNode);
+                sReceiver = this.cifrado.encriptar(sReceiver);
+                Bloque bloque = new Bloque();               
                 
                 return true;
             }catch(Exception e){
@@ -73,38 +72,31 @@ public class frmWallet extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtSend = new javax.swing.JTextField();
+        txtReceptor = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblDireccionIP = new javax.swing.JLabel();
+        lblNombreDelNodo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtPaciente = new javax.swing.JTextPane();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEnviar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtSend.setText("jTextField1");
-        txtSend.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSendActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Receptor:");
 
-        jLabel2.setText("IP:");
+        lblDireccionIP.setText("IP:");
 
-        jLabel3.setText("Usuario:");
+        lblNombreDelNodo.setText("Usuario:");
 
         jScrollPane1.setViewportView(txtPaciente);
 
         jLabel4.setText("Nombre Paciente");
 
-        jButton1.setText("Send");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviar.setText("Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEnviarActionPerformed(evt);
             }
         });
 
@@ -115,50 +107,46 @@ public class frmWallet extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDireccionIP, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNombreDelNodo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSend, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtReceptor, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                            .addComponent(btnEnviar))))
                 .addContainerGap(139, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addComponent(jLabel2)
+                .addComponent(lblDireccionIP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(lblNombreDelNodo)
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSend, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtReceptor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnEnviar)
                 .addGap(53, 53, 53))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSendActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSendActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
       // TODO add your handling code here:
-      this.sendTransaction();
-    }//GEN-LAST:event_jButton1ActionPerformed
+      this.enviarTransaccion();
+    }//GEN-LAST:event_btnEnviarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,13 +184,13 @@ public class frmWallet extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEnviar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDireccionIP;
+    private javax.swing.JLabel lblNombreDelNodo;
     private javax.swing.JTextPane txtPaciente;
-    private javax.swing.JTextField txtSend;
+    private javax.swing.JTextField txtReceptor;
     // End of variables declaration//GEN-END:variables
 }
