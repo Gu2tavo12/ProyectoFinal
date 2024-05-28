@@ -3,13 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Formularios;
-import BlockChain.Bloque;
 import BlockChain.Cifrado;
 import BlockChain.NodeData;
 import BlockChain.Paciente;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -57,7 +55,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         try {
             InetAddress inetAddress = InetAddress.getByName(this.nodeData.getDireccionIP());
             InetSocketAddress redSocket = new InetSocketAddress(inetAddress, this.nodeData.getNumeroDeSocket());
-            this.socketCliente = new ServerSocket();
+            this.socketCliente = new ServerSocket(this.nodeData.getNumeroDeSocket(), 50, inetAddress);
             this.tListener = new Thread(this);
             this.tListener.start();
         } 

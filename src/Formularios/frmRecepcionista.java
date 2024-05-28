@@ -264,7 +264,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         try {
             InetAddress inetAddress = InetAddress.getByName(this.nodeData.getDireccionIP());
             InetSocketAddress redSocket = new InetSocketAddress(inetAddress, this.nodeData.getNumeroDeSocket());
-            this.socketCliente = new ServerSocket();
+            this.socketCliente = new ServerSocket(this.nodeData.getNumeroDeSocket(), 50, inetAddress);
             this.tListener = new Thread(this);
             this.tListener.start();
         } 
