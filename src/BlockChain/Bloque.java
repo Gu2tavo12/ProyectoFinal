@@ -44,8 +44,9 @@ public class Bloque implements Serializable{
             
             return true;
         }
-        
-        return false;
+        else{            
+            return false;
+        }
     }
     
     public void setTransaccion(String emisor, String receptor, Paciente paciente){
@@ -102,8 +103,8 @@ public class Bloque implements Serializable{
     public String toString() {
         String cadena = Integer.toString(this.ID) + Long.toString(this.marcaDeTiempo) + this.hashPrevio;
         
-        for (Transaccion transaccion : this.listadoTransacciones) {
-            cadena += transaccion.toString();
+        for (int i = 0; i < this.listadoTransacciones.size(); i++) {
+            cadena += this.listadoTransacciones.get(i).toString();
         }
         
         return cadena;

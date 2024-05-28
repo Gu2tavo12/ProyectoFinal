@@ -91,6 +91,23 @@ public class BlockChain {
     
     //El método getBalance en nuestro proyecto no aplica
     
+    public Paciente getPaciente(String emisor){
+        Paciente paciente = new Paciente();;
+        
+        for(int i = 0; i < this.blockChain.size(); i++){
+            for(int j = 0; i < this.getBloque(i).cantidadTransacciones(); j++){
+                if(this.getBloque(i).getTransaccion(j).getReceptor().equals(emisor)){
+                    paciente = this.getBloque(i).getTransaccion(j).getPaciente();
+                }
+                else if(this.getBloque(i).getTransaccion(j).getEmisor().equals(emisor)){
+                    paciente = this.getBloque(i).getTransaccion(j).getPaciente();
+                }
+            }
+        }
+        
+        return paciente;
+    }
+    
     /*public double getBalance(String pSender){
         double positiveAmount = 0;
         double negativeAmount = 0;

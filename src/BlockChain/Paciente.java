@@ -21,6 +21,10 @@ public class Paciente implements Serializable{
     private String padecimiento;
     private SimpleDateFormat formatoFecha;
     
+    public Paciente(){
+        
+    }
+    
     public Paciente(String nombre, int edad, double peso, String fechaNacimiento, String padecimiento){
         try {
             this.formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
