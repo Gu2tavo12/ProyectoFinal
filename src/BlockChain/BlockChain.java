@@ -52,6 +52,7 @@ public class BlockChain {
         return this.blockChain.get(this.blockChain.size() - 1);
     }
     
+    //Diferente de
     public boolean crearBloqueGenesis(Paciente paciente, String cliente){
         if(this.blockChain.size() < 1){
             Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
@@ -59,6 +60,7 @@ public class BlockChain {
             if(paciente != null){
                 bloqueTemporal.setTransaccion("0000GeNeSiS", cliente, paciente);
             }
+            
             this.blockChain.add(bloqueTemporal);
             this.minarBloque();
             return true;
@@ -67,6 +69,7 @@ public class BlockChain {
         return false;
     }
     
+    //Diferente de
     public boolean crearBloqueGenesis(){
         if(this.blockChain.size() < 1){
             Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
@@ -80,6 +83,7 @@ public class BlockChain {
     
     public void crearBloque(){
         String hashPrevio = this.blockChain.get(this.blockChain.size() - 1).getHash();
+        
         this.blockChain.add(
                 new Bloque(
                         this.blockChain.size(), hashPrevio
@@ -88,6 +92,24 @@ public class BlockChain {
     }
     
     //El método getBalance en nuestro proyecto no aplica
+    
+    /*public double getBalance(String pSender){
+        double positiveAmount = 0;
+        double negativeAmount = 0;
+        
+        for(int i = 0; i < this.getCantidadBloques(); i++){
+            for(int j = 0; j < this.getBloque(i).cantidadTransacciones(); j++){
+                if(this.getBloque(i).getTransaccion(j).getReceptor().equals(pSender)){
+                    possitiveAmount += this.getBloque(i).getTransaccion(j).getAumount();                    
+                }
+                else if(this.getBloque(i).getTransaccion(j).getEmisor().equals(pSender)){
+                    negativeAmount += this.getBloque(i).getTransaccion(j).getAmount();
+                }
+            }
+        }
+        
+        return positiveAmount - negativeAmount;
+    }*/
     
     public boolean getPruebaDeTrabajo_overBlock(Bloque bloque){
         String cadena = bloque.toString();
@@ -134,7 +156,7 @@ public class BlockChain {
     
     private String generarHash(String cadena){
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            MessageDigest digest = MessageDigest.getInstance("SHA-1");
             byte[] hash = digest.digest(cadena.getBytes("UTF-8"));
             StringBuffer stringHexadecimal = new StringBuffer();
             

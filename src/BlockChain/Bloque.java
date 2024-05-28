@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Jimmy
  */
 public class Bloque implements Serializable{
+    private static final long serialVersionUID = 1L; // Para compatibilidad de versiones de la clase
     private int ID;
     private int nonce;
     private long marcaDeTiempo;
@@ -98,11 +99,11 @@ public class Bloque implements Serializable{
     }
     
     @Override
-    public String toString(){
+    public String toString() {
         String cadena = Integer.toString(this.ID) + Long.toString(this.marcaDeTiempo) + this.hashPrevio;
         
-        for(int i = 0; i < this.listadoTransacciones.size(); i++){
-            cadena = cadena + this.listadoTransacciones.get(i).toString();
+        for (Transaccion transaccion : this.listadoTransacciones) {
+            cadena += transaccion.toString();
         }
         
         return cadena;
