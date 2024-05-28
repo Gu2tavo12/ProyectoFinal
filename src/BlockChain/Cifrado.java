@@ -19,11 +19,11 @@ public class Cifrado {
     private Cipher cifrado;    //encriptador
     private Cipher descifrado; //desencriptador
     
-    public Cifrado(String pClave)
+    public Cifrado(String llave)
     {
         try{
             MessageDigest hash = MessageDigest.getInstance("SHA-1");
-            byte[] aBytes = hash.digest( pClave.getBytes("UTF-8"));
+            byte[] aBytes = hash.digest(llave.getBytes("UTF-8"));
             byte[] aBytes32 = Arrays.copyOf(aBytes, 32);
             this.llave = new SecretKeySpec(aBytes32, "AES");
             
@@ -48,15 +48,15 @@ public class Cifrado {
         }
     }
        
-    public String encriptar(String pCadena) throws Exception {
-        byte[] aBytes = pCadena.getBytes("UTF-8");
+    public String encriptar(String cadena) throws Exception {
+        byte[] aBytes = cadena.getBytes("UTF-8");
         byte[] aBytesEnc = this.cifrado.doFinal(aBytes);
         
         return Base64.getEncoder().encodeToString(aBytesEnc);
     }
 
-    public String desencriptar(String pCadena) throws Exception {
-        byte[] aBytes = Base64.getDecoder().decode(pCadena);
+    public String desencriptar(String cadena) throws Exception {
+        byte[] aBytes = Base64.getDecoder().decode(cadena);
         byte[] aBytesDec = this.descifrado.doFinal(aBytes);
         String datos = new String(aBytesDec);
         

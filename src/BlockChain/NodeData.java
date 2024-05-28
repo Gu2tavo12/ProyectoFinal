@@ -3,12 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package BlockChain;
+import java.io.Serializable;
 
 /**
  *
  * @author Jimmy
  */
-public class NodeData {
+public class NodeData implements Serializable{
+    private static final long serialVersionUID = 1L;
     String nombreDelNodo;
     String direccionIP;
     int numeroDeSocket;

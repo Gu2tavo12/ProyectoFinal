@@ -52,7 +52,6 @@ public class BlockChain {
         return this.blockChain.get(this.blockChain.size() - 1);
     }
     
-    //Diferente de
     public boolean crearBloqueGenesis(Paciente paciente, String cliente){
         if(this.blockChain.size() < 1){
             Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
@@ -69,7 +68,6 @@ public class BlockChain {
         return false;
     }
     
-    //Diferente de
     public boolean crearBloqueGenesis(){
         if(this.blockChain.size() < 1){
             Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros

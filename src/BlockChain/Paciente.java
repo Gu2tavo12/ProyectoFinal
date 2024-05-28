@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package BlockChain;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -11,7 +12,8 @@ import javax.swing.JOptionPane;
  *
  * @author Jimmy
  */
-public class Paciente {
+public class Paciente implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String nombre;
     private int edad;
     private double peso;
