@@ -39,9 +39,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="lblNombreNodo" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="151" max="32767" attributes="0"/>
-                      <Component id="lblNodosExistentes" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="289" max="-2" attributes="0"/>
+                      <EmptySpace min="289" pref="533" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -61,10 +59,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblUbicacion" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblNombreNodo" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblNodosExistentes" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="lblNombreNodo" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="lblDirecciónIP" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -94,11 +89,6 @@
     <Component class="javax.swing.JLabel" name="lblNumeroSocket">
       <Properties>
         <Property name="text" type="java.lang.String" value="N&#xfa;mero de Socket:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblNodosExistentes">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Nodos existentes:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblUbicacion">

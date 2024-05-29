@@ -24,7 +24,6 @@ import javax.swing.table.DefaultTableModel;
 public class frmDoctor extends javax.swing.JFrame implements Runnable {
     private NodeData nodeData;
     private ArrayList<NodeData> listadoServidores;
-    private Paciente pacienteActual;
     private ServerSocket socketCliente;
     private Thread tListener;
     private Cifrado cifrado;

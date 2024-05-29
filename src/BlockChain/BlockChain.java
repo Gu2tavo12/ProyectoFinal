@@ -197,10 +197,11 @@ public class BlockChain {
         Bloque bloque = this.blockChain.get(numeroDeBloque);
         
         for(int i = 0; i < bloque.cantidadTransacciones(); i++){
-            cadena += "\t Transacción #" + Integer.toString(bloque.getTransaccion(i).getID()) + 
-                      ": " + bloque.getTransaccion(i).getPaciente().getNombre() + " " + bloque.getTransaccion(i).getPaciente().getPadecimiento() + ".\t(" + 
+            cadena += "         Transacción #" + Integer.toString(bloque.getTransaccion(i).getID() + 1) + 
+                      ": Nombre del paciente: " + bloque.getTransaccion(i).getPaciente().getNombre() + ", Padecimiento: " + bloque.getTransaccion(i).getPaciente().getPadecimiento() + ".\t(" + 
                       bloque.getTransaccion(i).getEmisor() + " ---> " + 
                       bloque.getTransaccion(i).getReceptor() + ")\n";
+            
         }
         
         return cadena;
