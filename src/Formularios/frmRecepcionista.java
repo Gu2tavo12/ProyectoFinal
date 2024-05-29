@@ -35,16 +35,17 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
     public frmRecepcionista() {
         initComponents();
         
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
         this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
+        
         this.setLocationRelativeTo(null);
+        this.setResizable(false);        
     }
     
-    public void configurar(NodeData nodoCliente){
+    public void configurar(NodeData nodoCliente, ArrayList<NodeData> listadoNodos){
         this.nodeData = nodoCliente;
         this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ". Socket: " + this.nodeData.getNumeroDeSocket());
         this.lblUsuario.setText(this.nodeData.getNombreDelNodo());
+        this.regitrarServidores(listadoNodos);
         this.iniciarCliente();        
     }
     
@@ -76,10 +77,12 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             
             Bloque bloque = new Bloque();
             bloque.setTransaccion(nombreDelNodo, receptor, paciente);
+            
             Socket socket = new Socket(
                     this.listadoServidores.get(numeroDeServidor).getDireccionIP(),
                     this.listadoServidores.get(numeroDeServidor).getNumeroDeSocket()
             );
+            
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
                     socket.getOutputStream()
             );

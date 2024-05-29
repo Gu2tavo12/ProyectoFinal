@@ -16,6 +16,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -41,21 +42,29 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         this.setLocationRelativeTo(null);
     }
     
-    public frmServidor(NodeData nodeData){
+    public frmServidor(NodeData nodoActual, ArrayList<NodeData> listadoServidores){
         initComponents();
         
-        this.listadoServidores = new ArrayList<>();                
+        this.listadoServidores = new ArrayList<>();
         this.listadoClientes = new ArrayList<>();
         this.frmDoctores = new ArrayList<>();
         this.frmRecepcionistas = new ArrayList<>();
         
         this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
-        this.nodoActual = nodeData;
+        this.nodoActual = nodoActual;
         
-        this.lblNombreNodo.setText(this.nodoActual.getNombreDelNodo());
-        this.lblDirecciónIP.setText(this.nodoActual.getDireccionIP());
-        this.lblNumeroSocket.setText(Integer.toString(this.nodoActual.getNumeroDeSocket()));
+        for (NodeData nodo : listadoServidores) {
+            if (!nodo.getNombreDelNodo().equals(this.nodoActual.getNombreDelNodo())) {
+                this.listadoServidores.add(nodo);
+            }
+        }
         
+        this.lblUbicacion.setText("Ubicación del servidor: " + this.nodoActual.getNombreDelNodo());
+        this.lblNombreNodo.setText("Nombre del servidor: " + this.nodoActual.getNombreDelNodo());
+        this.lblDirecciónIP.setText("Dirección IP: " + this.nodoActual.getDireccionIP());
+        this.lblNumeroSocket.setText("Número de puerto: " + Integer.toString(this.nodoActual.getNumeroDeSocket()));
+        
+        this.actualizarNodosExistentes();
         this.iniciarServidor();
         this.setLocationRelativeTo(null);        
     }
@@ -75,7 +84,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         lblNodosExistentes = new javax.swing.JLabel();
         lblUbicacion = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         btnResumen = new javax.swing.JButton();
         Pane1 = new javax.swing.JScrollPane();
         txtMensajes = new javax.swing.JTextArea();
@@ -94,13 +102,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         lblUbicacion.setText("Ubicación del servidor:");
 
         jLabel1.setText("Acciones y mensajes de BlockChain:");
-
-        jButton1.setText("Balances");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         btnResumen.setText("Resumen");
         btnResumen.addActionListener(new java.awt.event.ActionListener() {
@@ -137,10 +138,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblUbicacion)
                             .addComponent(jLabel1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnResumen)))
+                            .addComponent(btnResumen))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -157,9 +155,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblNumeroSocket)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(btnResumen))
+                .addComponent(btnResumen)
                 .addGap(13, 13, 13)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -183,10 +179,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         this.txtMensajes.setText(cadena);
     }//GEN-LAST:event_btnResumenActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void iniciarServidor(){
         this.blockChain = new BlockChain(3, "0");
         this.blockChain.crearBloqueGenesis();
@@ -200,8 +192,25 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
             this.tListener.start();
         } 
         catch (Exception ex) {
-            
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
         }
+    }
+    
+    private void actualizarNodosExistentes() {
+        StringBuilder nodosExistentes = new StringBuilder();
+        
+        for (NodeData nodo : listadoServidores) {
+            nodosExistentes.append(nodo.getNombreDelNodo()).append(", ");
+        }
+        
+        if (nodosExistentes.length() > 0) {
+            nodosExistentes.setLength(nodosExistentes.length() - 2); // Remove the last comma and space
+        } 
+        else {
+            nodosExistentes.append("Ninguno");
+        }
+        
+        this.lblNodosExistentes.setText("Nodos existentes: " + nodosExistentes.toString());
     }
     
     public void setBlockChainCopia(BlockChain blockChainCopia){
@@ -358,7 +367,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Pane1;
     private javax.swing.JButton btnResumen;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDirecciónIP;
     private javax.swing.JLabel lblNodosExistentes;

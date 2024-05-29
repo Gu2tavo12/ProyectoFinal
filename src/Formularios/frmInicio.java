@@ -4,6 +4,7 @@
  */
 package Formularios;
 import BlockChain.NodeData;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,11 +15,12 @@ public class frmInicio extends javax.swing.JFrame {
     /**
      * Creates new form frmInicio
      */
-    NodeData nodeData;
+    ArrayList<NodeData> listadoNodos;
     
     public frmInicio() {
         initComponents();
         
+        this.listadoNodos = new ArrayList<>();
         this.setLocationRelativeTo(null);
     }
 
@@ -167,39 +169,41 @@ public class frmInicio extends javax.swing.JFrame {
 
     private void btnCrearRecepcionistaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearRecepcionistaActionPerformed
         // TODO add your handling code here:
-        this.nodeData = new NodeData(
-                this.txtNombreCliente.getText(),
-                this.txtDireccionIPCliente.getText(),
-                Integer.parseInt(this.txtNumeroSocketCliente.getText())
+        NodeData nodeData = new NodeData(
+                txtNombreCliente.getText(),
+                txtDireccionIPCliente.getText(),
+                Integer.parseInt(txtNumeroSocketCliente.getText())
         );
-        
+
         frmRecepcionista recepcionista = new frmRecepcionista();
-        recepcionista.configurar(this.nodeData);
+        recepcionista.configurar(nodeData, this.listadoNodos);
         recepcionista.setVisible(true);
     }//GEN-LAST:event_btnCrearRecepcionistaActionPerformed
 
     private void btnCrearDoctorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearDoctorActionPerformed
         // TODO add your handling code here:
-        this.nodeData = new NodeData(
-                this.txtNombreCliente.getText(),
-                this.txtDireccionIPCliente.getText(),
-                Integer.parseInt(this.txtNumeroSocketCliente.getText())
+        NodeData nodeData = new NodeData(
+                txtNombreCliente.getText(),
+                txtDireccionIPCliente.getText(),
+                Integer.parseInt(txtNumeroSocketCliente.getText())
         );
-        
+
         frmDoctor doctor = new frmDoctor();
-        doctor.configurar(this.nodeData);
+        doctor.configurar(nodeData);
         doctor.setVisible(true);
     }//GEN-LAST:event_btnCrearDoctorActionPerformed
 
     private void btnCrearServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearServidorActionPerformed
         // TODO add your handling code here:
-        this.nodeData = new NodeData(
+        NodeData nodoServidor = new NodeData(
                 this.txtNombreServidor.getText(),
                 this.txtDireccionIPServidor.getText(),
                 Integer.parseInt(this.txtNumeroSocketServidor.getText())
         );
         
-        frmServidor servidor = new frmServidor(this.nodeData);
+        this.listadoNodos.add(nodoServidor);  // Agregar nodo a la lista
+        
+        frmServidor servidor = new frmServidor(nodoServidor, this.listadoNodos);
         servidor.setVisible(true);
     }//GEN-LAST:event_btnCrearServidorActionPerformed
 

@@ -93,15 +93,13 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         jtPacientes = new javax.swing.JTable();
         lblDireccionIPYSocket = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
+        btnRecargarTabla = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jtPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Edad", "Peso", "Fecha de nacimiento", "Padecimiento"
@@ -123,6 +121,13 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblUsuario.setText("Usuario:");
 
+        btnRecargarTabla.setText("Recargar tabla");
+        btnRecargarTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarTablaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -137,6 +142,10 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
                             .addComponent(lblDireccionIPYSocket))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(btnRecargarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,13 +153,20 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
                 .addComponent(lblUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDireccionIPYSocket)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(btnRecargarTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRecargarTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarTablaActionPerformed
+        // TODO add your handling code here:
+        this.cargarTablaPacientes();
+    }//GEN-LAST:event_btnRecargarTablaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,6 +204,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRecargarTabla;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtPacientes;
     private javax.swing.JLabel lblDireccionIPYSocket;
