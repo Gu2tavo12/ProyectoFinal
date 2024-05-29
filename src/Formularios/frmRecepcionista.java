@@ -81,7 +81,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             Socket socket = new Socket(
                     this.listadoServidores.get(numeroDeServidor).getDireccionIP(),
                     this.listadoServidores.get(numeroDeServidor).getNumeroDeSocket()
-            );
+            );           
             
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
                     socket.getOutputStream()
@@ -89,6 +89,18 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             
             objectOutputStream.writeObject(bloque);
             socket.close();
+            
+            Socket socket2 = new Socket(
+                    "127.0.0.3",
+                    8001
+            );
+            
+            ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(
+                    socket2.getOutputStream()
+            );
+            
+            objectOutputStream2.writeObject(bloque);
+            socket2.close();
             
             this.limpiarTextFields();
             return true;
