@@ -92,7 +92,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             
             Socket socket2 = new Socket(
                     "127.0.0.3",
-                    8001
+                    8000
             );
             
             ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(

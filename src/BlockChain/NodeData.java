@@ -10,14 +10,9 @@ import java.io.Serializable;
  * @author Jimmy
  */
 public class NodeData implements Serializable{
-    private static final long serialVersionUID = 1L;
     String nombreDelNodo;
     String direccionIP;
     int numeroDeSocket;
-    
-    public NodeData(){
-        
-    }
     
     public NodeData(String nombreDelNodo, String direccionIP, int numeroDeSocket){
         this.nombreDelNodo = nombreDelNodo;
