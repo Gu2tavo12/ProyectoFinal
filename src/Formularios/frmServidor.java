@@ -258,14 +258,22 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                     String receptor = this.cifrado.desencriptar(bloque.getTransaccion(0).getReceptor());
                     Paciente paciente = bloque.getTransaccion(0).getPaciente();
                     
+                    Paciente pacienteTemporal = new Paciente(
+                            this.cifrado.desencriptar(paciente.getNombre()),
+                            paciente.getEdad(),
+                            paciente.getPeso(),
+                            paciente.getFechaNacimiento(),
+                            this.cifrado.desencriptar(paciente.getPadecimiento())
+                    );
+                    
                     Bloque bloqueTemporal = new Bloque();
-                    bloqueTemporal.setTransaccion(emisor, receptor, paciente);
+                    bloqueTemporal.setTransaccion(emisor, receptor, pacienteTemporal);
                     
                     this.blockChain.crearBloque();
                     this.blockChain.getUltimoBloque().setTransaccion(bloqueTemporal.getTransaccion(0));
                     this.blockChain.minarBloque();
                     this.bloqueBroadcast(this.blockChain.getUltimoBloque());
-                    this.reportarNuevoPaciente(receptor, paciente);
+                    this.reportarNuevoPaciente(receptor, pacienteTemporal);
                 }
                 else{
                     this.blockChain.añadirBloqueVerificado(bloque);

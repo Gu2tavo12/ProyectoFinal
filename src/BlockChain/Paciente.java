@@ -43,7 +43,7 @@ public class Paciente implements Serializable{
     public String getNombre(){
         return this.nombre;
     }
-    
+       
     public int getEdad(){
         return this.edad;
     }

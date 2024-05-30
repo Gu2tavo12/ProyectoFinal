@@ -39,6 +39,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
         this.modeloPacientes = (DefaultTableModel) this.jtPacientes.getModel();
         this.listadoPacientes = new ArrayList<>();
+        this.lblServidor.setText("Servidor: SV");
         
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -93,6 +94,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         jtPacientes = new javax.swing.JTable();
         lblDireccionIPYSocket = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
+        lblServidor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,6 +122,8 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblUsuario.setText("Usuario:");
 
+        lblServidor.setText("Servidor:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,18 +131,25 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUsuario)
-                            .addComponent(lblDireccionIPYSocket))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDireccionIPYSocket)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblServidor)
+                        .addGap(93, 93, 93))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(lblUsuario)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsuario)
+                    .addComponent(lblServidor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDireccionIPYSocket)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -188,6 +199,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtPacientes;
     private javax.swing.JLabel lblDireccionIPYSocket;
+    private javax.swing.JLabel lblServidor;
     private javax.swing.JLabel lblUsuario;
     // End of variables declaration//GEN-END:variables
 
@@ -207,7 +219,16 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
                 
                 if(bloque.getID() < 0){
                     Paciente paciente = bloque.getTransaccion(0).getPaciente();
-                    this.listadoPacientes.add(paciente);
+                    
+                    Paciente pacienteTemporal = new Paciente(
+                            this.cifrado.desencriptar(paciente.getNombre()),
+                            paciente.getEdad(),
+                            paciente.getPeso(),
+                            paciente.getFechaNacimiento(),
+                            this.cifrado.desencriptar(paciente.getPadecimiento())
+                    );
+                    
+                    this.listadoPacientes.add(pacienteTemporal);
                     this.cargarTablaPacientes();
                 }
             } 

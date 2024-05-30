@@ -53,15 +53,15 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         String nombreDelNodo = this.nodeData.getNombreDelNodo();
         String receptor = this.cbDoctor.getSelectedItem().toString();
         
-        Paciente paciente = new Paciente(
-                this.txtNombrePaciente.getText(),
+        try {
+            Paciente paciente = new Paciente(
+                this.cifrado.encriptar(this.txtNombrePaciente.getText()),
                 Integer.parseInt(this.txtEdad.getText()),
                 Double.parseDouble(this.txtPeso.getText()),
                 this.txtFechaDeNacimiento.getText(),
-                this.txtPadecimiento.getText()
-        );
-        
-        try {
+                this.cifrado.encriptar(this.txtPadecimiento.getText())
+            );
+            
             nombreDelNodo = this.cifrado.encriptar(nombreDelNodo);
             receptor = this.cifrado.encriptar(receptor);
             
