@@ -218,7 +218,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
                         .addComponent(lblServidor)
                         .addGap(78, 78, 78))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(203, 203, 203)
+                .addGap(206, 206, 206)
                 .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
