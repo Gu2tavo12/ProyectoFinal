@@ -46,7 +46,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
     
     public void configurar(NodeData nodoCliente){
         this.nodeData = nodoCliente;
-        this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ". Socket: " + this.nodeData.getNumeroDeSocket());
+        this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ", Socket: " + this.nodeData.getNumeroDeSocket());
         this.lblUsuario.setText(this.nodeData.getNombreDelNodo());
         this.iniciarCliente();        
     }

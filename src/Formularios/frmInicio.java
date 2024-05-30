@@ -15,14 +15,28 @@ public class frmInicio extends javax.swing.JFrame {
     /**
      * Creates new form frmInicio
      */
-    ArrayList<NodeData> listadoNodos;
+    int contador;
     
     public frmInicio() {
-        initComponents();
+        initComponents();        
         
-        this.listadoNodos = new ArrayList<>();
+        this.contador = 0;
+        
+        this.txtNombreServidor.setText("SV");
+        this.txtDireccionIPServidor.setText("127.0.0.1");
+        this.txtNumeroSocketServidor.setText("7000");
+        
+        this.txtNombreServidor.setEditable(false);
+        this.txtDireccionIPServidor.setEditable(false);
+        this.txtNumeroSocketServidor.setEditable(false);
+        this.txtNombreCliente.setEditable(false);
+        this.txtDireccionIPCliente.setEditable(false);
+        this.txtNumeroSocketCliente.setEditable(false);
+        this.btnCrearRecepcionista.setEnabled(false);
+        this.btnCrearDoctor.setEnabled(false);
+        
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);        
     }
 
     /**
@@ -69,7 +83,7 @@ public class frmInicio extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setText("Nombre del cliente:");
+        jLabel5.setText("Nombre del trabajador:");
 
         jLabel6.setText("Direccion IP:");
 
@@ -176,9 +190,16 @@ public class frmInicio extends javax.swing.JFrame {
                 txtDireccionIPCliente.getText(),
                 Integer.parseInt(txtNumeroSocketCliente.getText())
         );
+        
+        this.txtNombreCliente.setText("DR. Retana");
+        this.txtDireccionIPCliente.setText("127.0.0.1");
+        this.txtNumeroSocketCliente.setText("8001");
+        
+        this.btnCrearRecepcionista.setEnabled(false);
+        this.btnCrearDoctor.setEnabled(true);
 
         frmRecepcionista recepcionista = new frmRecepcionista();
-        recepcionista.configurar(nodeData, this.listadoNodos);
+        recepcionista.configurar(nodeData);
         recepcionista.setVisible(true);
     }//GEN-LAST:event_btnCrearRecepcionistaActionPerformed
 
@@ -189,10 +210,24 @@ public class frmInicio extends javax.swing.JFrame {
                 txtDireccionIPCliente.getText(),
                 Integer.parseInt(txtNumeroSocketCliente.getText())
         );
+        
+        this.txtNombreCliente.setText("DR. Ramos");
+        this.txtDireccionIPCliente.setText("127.0.0.1");
+        this.txtNumeroSocketCliente.setText("8002");
 
         frmDoctor doctor = new frmDoctor();
         doctor.configurar(nodeData);
         doctor.setVisible(true);
+        
+        this.contador++;
+        
+        if(contador == 2){
+            this.txtNombreCliente.setText("");
+            this.txtDireccionIPCliente.setText("");
+            this.txtNumeroSocketCliente.setText("");
+            
+            this.btnCrearDoctor.setEnabled(false);
+        }
     }//GEN-LAST:event_btnCrearDoctorActionPerformed
 
     private void btnCrearServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearServidorActionPerformed
@@ -203,10 +238,19 @@ public class frmInicio extends javax.swing.JFrame {
                 Integer.parseInt(this.txtNumeroSocketServidor.getText())
         );
         
-        this.listadoNodos.add(nodoServidor);  // Agregar nodo a la lista
+        this.txtNombreServidor.setText("");
+        this.txtDireccionIPServidor.setText("");
+        this.txtNumeroSocketServidor.setText("");
+                
+        this.txtNombreCliente.setText("MILO J");
+        this.txtDireccionIPCliente.setText("127.0.0.1");
+        this.txtNumeroSocketCliente.setText("8000");
         
-        frmServidor servidor = new frmServidor(nodoServidor, this.listadoNodos);
-        servidor.setVisible(true);
+        this.btnCrearServidor.setEnabled(false);
+        this.btnCrearRecepcionista.setEnabled(true);
+        
+        frmServidor servidor = new frmServidor(nodoServidor);
+        servidor.setVisible(true);        
     }//GEN-LAST:event_btnCrearServidorActionPerformed
 
     /**

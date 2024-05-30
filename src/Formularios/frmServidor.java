@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 public class frmServidor extends javax.swing.JFrame implements Runnable {
     private Thread tListener;
     private NodeData nodoActual;
-    private ArrayList<NodeData> listadoServidores;
     private ArrayList<NodeData> listadoClientes;
     private ServerSocket serverSocket;
     private BlockChain blockChain;
@@ -36,29 +35,16 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
      */
     public frmServidor() {
         initComponents();
-        
-        this.txtMensajes.setEditable(false);
-        this.setResizable(false);        
-        this.setLocationRelativeTo(null);
     }
     
-    public frmServidor(NodeData nodoActual, ArrayList<NodeData> listadoServidores){
+    public frmServidor(NodeData nodoActual){
         initComponents();
         
-        this.listadoServidores = new ArrayList<>();
         this.listadoClientes = new ArrayList<>();
-        
-        this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
-        this.nodoActual = nodoActual;
-        
-        for (NodeData nodo : listadoServidores) {
-            if (!nodo.getNombreDelNodo().equals(this.nodoActual.getNombreDelNodo())) {
-                this.listadoServidores.add(nodo);
-            }
-        }
+        this.nodoActual = nodoActual;        
+        this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");        
         
         this.lblUbicacion.setText("Ubicación del servidor: " + this.nodoActual.getNombreDelNodo());
-        this.lblNombreNodo.setText("Nombre del servidor: " + this.nodoActual.getNombreDelNodo());
         this.lblDirecciónIP.setText("Dirección IP: " + this.nodoActual.getDireccionIP());
         this.lblNumeroSocket.setText("Número de puerto: " + Integer.toString(this.nodoActual.getNumeroDeSocket()));
                 
@@ -78,7 +64,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNombreNodo = new javax.swing.JLabel();
         lblDirecciónIP = new javax.swing.JLabel();
         lblNumeroSocket = new javax.swing.JLabel();
         lblUbicacion = new javax.swing.JLabel();
@@ -88,8 +73,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         txtMensajes = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lblNombreNodo.setText("Nombre del servidor:");
 
         lblDirecciónIP.setText("Dirección IP:");
 
@@ -119,21 +102,15 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Pane1)
+                        .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
                         .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDirecciónIP)
-                            .addComponent(lblNumeroSocket))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNombreNodo)
-                        .addGap(289, 533, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblUbicacion)
                             .addComponent(jLabel1)
-                            .addComponent(btnResumen))
+                            .addComponent(btnResumen)
+                            .addComponent(lblDirecciónIP)
+                            .addComponent(lblNumeroSocket))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -141,9 +118,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblUbicacion)
-                .addGap(29, 29, 29)
-                .addComponent(lblNombreNodo)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblDirecciónIP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblNumeroSocket)
@@ -152,7 +127,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 .addGap(13, 13, 13)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -213,22 +188,20 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     }
     
     public boolean bloqueBroadcast(Bloque bloque){
-        try {
-            for(int i = 0; i < this.listadoServidores.size(); i++){
-                Socket socket = new Socket(
-                        this.listadoServidores.get(i).getDireccionIP(),
-                        this.listadoServidores.get(i).getNumeroDeSocket()
-                );
+        try {            
+            Socket socket = new Socket(
+                    "127.0.0.1",
+                    7000
+            );
                 
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectOutputStream.writeObject(bloque);
-                socket.close();
-            }
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(bloque);
+             socket.close();
             
             return true;
         } 
-        catch (Exception e) {
-            
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
         }
         
         return false;
@@ -331,7 +304,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton btnResumen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblDirecciónIP;
-    private javax.swing.JLabel lblNombreNodo;
     private javax.swing.JLabel lblNumeroSocket;
     private javax.swing.JLabel lblUbicacion;
     private javax.swing.JTextArea txtMensajes;

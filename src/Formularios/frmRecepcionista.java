@@ -14,7 +14,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +22,6 @@ import javax.swing.JOptionPane;
  */
 public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
     private NodeData nodeData;
-    private ArrayList<NodeData> listadoServidores;
     private Paciente pacienteActual;
     private ServerSocket socketCliente;
     private Thread tListener;
@@ -36,31 +34,25 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         initComponents();
         
         this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
+        this.cbDoctor.addItem("DR. Retana");
+        this.cbDoctor.addItem("DR. Ramos");
+        this.lblServidor.setText("Servidor: SV");
         
         this.setLocationRelativeTo(null);
         this.setResizable(false);        
     }
     
-    public void configurar(NodeData nodoCliente, ArrayList<NodeData> listadoNodos){
+    public void configurar(NodeData nodoCliente){
         this.nodeData = nodoCliente;
         this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ". Socket: " + this.nodeData.getNumeroDeSocket());
         this.lblUsuario.setText(this.nodeData.getNombreDelNodo());
-        this.regitrarServidores(listadoNodos);
         this.iniciarCliente();        
     }
     
-    public void regitrarServidores(ArrayList<NodeData> listadoServidores){
-        this.listadoServidores = listadoServidores;
-        this.cbServidor.removeAllItems();
-        
-        for(int i = 0; i < this.listadoServidores.size(); i++){
-            this.cbServidor.addItem(this.listadoServidores.get(i).getNombreDelNodo());
-        }
-    } 
-    
     public boolean enviarTransaccion(){
         String nombreDelNodo = this.nodeData.getNombreDelNodo();
-        String receptor = this.txtDoctor.getText().trim().toUpperCase();
+        String receptor = this.cbDoctor.getSelectedItem().toString();
+        
         Paciente paciente = new Paciente(
                 this.txtNombrePaciente.getText(),
                 Integer.parseInt(this.txtEdad.getText()),
@@ -68,8 +60,6 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
                 this.txtFechaDeNacimiento.getText(),
                 this.txtPadecimiento.getText()
         );
-        
-        int numeroDeServidor = this.cbServidor.getSelectedIndex();
         
         try {
             nombreDelNodo = this.cifrado.encriptar(nombreDelNodo);
@@ -79,8 +69,8 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             bloque.setTransaccion(nombreDelNodo, receptor, paciente);
             
             Socket socket = new Socket(
-                    this.listadoServidores.get(numeroDeServidor).getDireccionIP(),
-                    this.listadoServidores.get(numeroDeServidor).getNumeroDeSocket()
+                    "127.0.0.1",
+                    7000
             );           
             
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(
@@ -90,17 +80,32 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             objectOutputStream.writeObject(bloque);
             socket.close();
             
-            Socket socket2 = new Socket(
-                    "127.0.0.3",
-                    8000
-            );
+            if(this.cbDoctor.getSelectedItem().toString().equals("DR. Retana")){
+                Socket socketDoctor = new Socket(
+                    "127.0.0.1",
+                    8001
+                );           
             
-            ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(
-                    socket2.getOutputStream()
-            );
+                ObjectOutputStream objectOutputStreamDoctor = new ObjectOutputStream(
+                    socketDoctor.getOutputStream()
+                );
             
-            objectOutputStream2.writeObject(bloque);
-            socket2.close();
+                objectOutputStreamDoctor.writeObject(bloque);
+                socketDoctor.close();
+            }
+            else{
+                Socket socketDoctor = new Socket(
+                    "127.0.0.1",
+                    8002
+                );           
+            
+                ObjectOutputStream objectOutputStreamDoctor = new ObjectOutputStream(
+                    socketDoctor.getOutputStream()
+                );
+            
+                objectOutputStreamDoctor.writeObject(bloque);
+                socketDoctor.close();
+            }                
             
             this.limpiarTextFields();
             return true;
@@ -133,11 +138,10 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         txtPeso = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        txtDoctor = new javax.swing.JTextField();
         lblUsuario = new javax.swing.JLabel();
         lblDireccionIPYSocket = new javax.swing.JLabel();
-        cbServidor = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
+        lblServidor = new javax.swing.JLabel();
+        cbDoctor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,7 +172,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         lblDireccionIPYSocket.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblDireccionIPYSocket.setText("Dirección IP / Socket:");
 
-        jLabel7.setText("Seleccionar Servidor:");
+        lblServidor.setText("Servidor:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -177,49 +181,54 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUsuario)
-                    .addComponent(lblDireccionIPYSocket)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6)
-                                    .addGap(12, 12, 12)
-                                    .addComponent(txtDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtFechaDeNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblDireccionIPYSocket)
                             .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtNombrePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(39, 39, 39)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPadecimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel6)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(cbDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtFechaDeNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(39, 39, 39)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtPadecimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(cbServidor, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblServidor)
+                        .addGap(78, 78, 78))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(203, 203, 203)
+                .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblUsuario)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsuario)
+                    .addComponent(lblServidor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDireccionIPYSocket)
                 .addGap(47, 47, 47)
@@ -235,7 +244,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
                         .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txtDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbDoctor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -249,10 +258,7 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
                             .addComponent(jLabel3)
                             .addComponent(txtPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbServidor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -271,8 +277,6 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
         this.txtEdad.setText("");
         this.txtPadecimiento.setText("");
         this.txtPeso.setText("");
-        this.txtDoctor.setText("");
-        this.cbServidor.setSelectedItem(-1);
     }
     
     private void iniciarCliente(){
@@ -325,17 +329,16 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JComboBox<String> cbServidor;
+    private javax.swing.JComboBox<String> cbDoctor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblDireccionIPYSocket;
+    private javax.swing.JLabel lblServidor;
     private javax.swing.JLabel lblUsuario;
-    private javax.swing.JTextField txtDoctor;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JFormattedTextField txtFechaDeNacimiento;
     private javax.swing.JTextField txtNombrePaciente;
