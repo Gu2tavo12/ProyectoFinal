@@ -52,25 +52,20 @@ public class BlockChain {
         return this.blockChain.get(this.blockChain.size() - 1);
     }
     
-    public boolean crearBloqueGenesis(Paciente paciente, String cliente){
-        if(this.blockChain.size() < 1){
-            Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
-            
-            if(paciente != null){
-                bloqueTemporal.setTransaccion("0000GeNeSiS", cliente, paciente);
-            }
-            
-            this.blockChain.add(bloqueTemporal);
-            this.minarBloque();
-            return true;
-        }
-        
-        return false;
-    }
-    
     public boolean crearBloqueGenesis(){
         if(this.blockChain.size() < 1){
+            Paciente pacienteTemporal = new Paciente(
+                    "",
+                    0,
+                    0,
+                    "00/00/0000",
+                    ""
+            );
+            
             Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
+            
+            bloqueTemporal.setTransaccion("0000GeNeSiS", "0000GeNeSiS", pacienteTemporal);
+            
             this.blockChain.add(bloqueTemporal);
             this.minarBloque();
             return true;

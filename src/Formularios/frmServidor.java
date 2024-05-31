@@ -148,7 +148,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnResumenActionPerformed
 
     private void iniciarServidor(){
-        this.blockChain = new BlockChain(3, "0");
+        this.blockChain = new BlockChain(3, "0");        
         this.blockChain.crearBloqueGenesis();
         
         try {
