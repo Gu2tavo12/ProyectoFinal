@@ -12,7 +12,6 @@ import java.util.Date;
  * @author Jimmy
  */
 public class Bloque implements Serializable{
-    private static final long serialVersionUID = 1L; // Para compatibilidad de versiones de la clase
     private int ID;
     private int nonce;
     private long marcaDeTiempo;

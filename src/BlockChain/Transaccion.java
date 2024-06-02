@@ -11,7 +11,6 @@ import java.util.Date;
  * @author Jimmy
  */
 public class Transaccion implements Serializable{
-    private static final long serialVersionUID = 1L;
     private int ID;
     private long marcaDeTiempo;
     private String emisor;

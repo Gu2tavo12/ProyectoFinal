@@ -4,7 +4,6 @@
  */
 package Formularios;
 import BlockChain.NodeData;
-import java.util.ArrayList;
 
 /**
  *

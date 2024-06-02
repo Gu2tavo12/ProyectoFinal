@@ -16,8 +16,8 @@ import javax.swing.JOptionPane;
  */
 public class Cifrado {
     private SecretKeySpec llave;
-    private Cipher cifrado;    //encriptador
-    private Cipher descifrado; //desencriptador
+    private Cipher cifrado;    
+    private Cipher descifrado; 
     
     public Cifrado(String llave)
     {
@@ -35,16 +35,6 @@ public class Cifrado {
         }
         catch(Exception ex){
             JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    public Bloque cifrarBloque(Bloque bloque){
-        try{
-            bloque.toString();
-            return null;
-        }
-        catch (Exception ex){
-            return null;
         }
     }
        

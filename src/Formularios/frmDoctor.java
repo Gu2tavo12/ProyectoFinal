@@ -35,10 +35,10 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
      */
     public frmDoctor() {
         initComponents();
-        
-        this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
+               
         this.modeloPacientes = (DefaultTableModel) this.jtPacientes.getModel();
         this.listadoPacientes = new ArrayList<>();
+        this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");
         this.lblServidor.setText("Servidor: SV");
         
         this.setLocationRelativeTo(null);
