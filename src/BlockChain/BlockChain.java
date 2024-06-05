@@ -5,7 +5,6 @@
 package BlockChain;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -24,10 +23,6 @@ public class BlockChain {
         for(int i = 0; i < this.complejidad; i++){
             this.pruebaDeTrabajo += caracterDePrueba;
         }
-    }
-    
-    public List<Bloque> getBlockChain(){
-        return this.blockChain;
     }
     
     public boolean bloqueExistente(Bloque bloque){
@@ -62,7 +57,7 @@ public class BlockChain {
                     ""
             );
             
-            Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000"); //En teoría son 64 ceros
+            Bloque bloqueTemporal = new Bloque(0, "0000000000000000000000000000000000000000000000000000000000000000");
             
             bloqueTemporal.setTransaccion("0000GeNeSiS", "0000GeNeSiS", pacienteTemporal);
             
@@ -83,43 +78,6 @@ public class BlockChain {
                 )        
         );
     }
-    
-    //El método getBalance en nuestro proyecto no aplica
-    
-    public Paciente getPaciente(String emisor){
-        Paciente paciente = new Paciente();;
-        
-        for(int i = 0; i < this.blockChain.size(); i++){
-            for(int j = 0; i < this.getBloque(i).cantidadTransacciones(); j++){
-                if(this.getBloque(i).getTransaccion(j).getReceptor().equals(emisor)){
-                    paciente = this.getBloque(i).getTransaccion(j).getPaciente();
-                }
-                else if(this.getBloque(i).getTransaccion(j).getEmisor().equals(emisor)){
-                    paciente = this.getBloque(i).getTransaccion(j).getPaciente();
-                }
-            }
-        }
-        
-        return paciente;
-    }
-    
-    /*public double getBalance(String pSender){
-        double positiveAmount = 0;
-        double negativeAmount = 0;
-        
-        for(int i = 0; i < this.getCantidadBloques(); i++){
-            for(int j = 0; j < this.getBloque(i).cantidadTransacciones(); j++){
-                if(this.getBloque(i).getTransaccion(j).getReceptor().equals(pSender)){
-                    possitiveAmount += this.getBloque(i).getTransaccion(j).getAumount();                    
-                }
-                else if(this.getBloque(i).getTransaccion(j).getEmisor().equals(pSender)){
-                    negativeAmount += this.getBloque(i).getTransaccion(j).getAmount();
-                }
-            }
-        }
-        
-        return positiveAmount - negativeAmount;
-    }*/
     
     public boolean getPruebaDeTrabajo_overBlock(Bloque bloque){
         String cadena = bloque.toString();

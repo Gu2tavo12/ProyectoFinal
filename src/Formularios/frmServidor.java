@@ -15,7 +15,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -25,7 +24,6 @@ import javax.swing.JOptionPane;
 public class frmServidor extends javax.swing.JFrame implements Runnable {
     private Thread tListener;
     private NodeData nodoActual;
-    private ArrayList<NodeData> listadoClientes;
     private ServerSocket serverSocket;
     private BlockChain blockChain;
     private Cifrado cifrado;
@@ -40,7 +38,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     public frmServidor(NodeData nodoActual){
         initComponents();
         
-        this.listadoClientes = new ArrayList<>();
         this.nodoActual = nodoActual;        
         this.cifrado = new Cifrado("¡¡Soltala Erika soltala!!");        
         
@@ -164,29 +161,6 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
         }
     }
     
-    
-    public void setBlockChainCopia(BlockChain blockChainCopia){
-        this.blockChain = blockChainCopia;
-    }
-    
-    public BlockChain getBlockChainCopia(){
-        return this.blockChain;
-    }
-    
-    public int getTamañoBlockChain(){
-        return this.blockChain.getCantidadBloques();
-    }
-    
-    public void iniciarCuentaDeUsuario(NodeData nodoCliente, Paciente paciente){
-        this.blockChain.crearBloque();
-        this.blockChain.getUltimoBloque().setTransaccion("000BLOQUE000INICIAL", nodoCliente.getNombreDelNodo(), paciente);
-        this.blockChain.minarBloque();
-    }
-    
-    public void registrarClientes(ArrayList<NodeData> listadoClientes){
-        this.listadoClientes = listadoClientes;
-    }
-    
     public boolean bloqueBroadcast(Bloque bloque){
         try {            
             Socket socket = new Socket(
@@ -196,7 +170,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(bloque);
-             socket.close();
+            socket.close();
             
             return true;
         } 
@@ -273,40 +247,17 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                     this.blockChain.getUltimoBloque().setTransaccion(bloqueTemporal.getTransaccion(0));
                     this.blockChain.minarBloque();
                     this.bloqueBroadcast(this.blockChain.getUltimoBloque());
-                    this.reportarNuevoPaciente(receptor, pacienteTemporal);
                 }
                 else{
                     this.blockChain.añadirBloqueVerificado(bloque);
                 }
             } 
             catch (Exception ex) {
-                
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
             }
         }            
     }
     
-    public void reportarNuevoPaciente(String receptor, Paciente paciente){
-        for(int i = 0; i < this.listadoClientes.size(); i++){
-            if(this.listadoClientes.get(i).getNombreDelNodo().equals(receptor)){
-                try {
-                    Socket socket = new Socket(
-                            this.listadoClientes.get(i).getDireccionIP(),
-                            this.listadoClientes.get(i).getNumeroDeSocket()
-                    );
-                    
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                    objectOutputStream.writeObject(paciente);
-                    socket.close();
-                } 
-                catch (Exception ex) {
-                    
-                }
-            }
-        }
-    }
-    
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Pane1;
     private javax.swing.JButton btnResumen;

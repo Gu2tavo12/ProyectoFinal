@@ -7,8 +7,6 @@ import BlockChain.Bloque;
 import BlockChain.Cifrado;
 import BlockChain.NodeData;
 import BlockChain.Paciente;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -20,11 +18,10 @@ import javax.swing.JOptionPane;
  *
  * @author Jimmy
  */
-public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
+public class frmRecepcionista extends javax.swing.JFrame{
     private NodeData nodeData;
     private Paciente pacienteActual;
     private ServerSocket socketCliente;
-    private Thread tListener;
     private Cifrado cifrado;
     
     /**
@@ -284,8 +281,6 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
             InetAddress inetAddress = InetAddress.getByName(this.nodeData.getDireccionIP());
             InetSocketAddress redSocket = new InetSocketAddress(inetAddress, this.nodeData.getNumeroDeSocket());
             this.socketCliente = new ServerSocket(this.nodeData.getNumeroDeSocket(), 50, inetAddress);
-            this.tListener = new Thread(this);
-            this.tListener.start();
         } 
         catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
@@ -345,22 +340,4 @@ public class frmRecepcionista extends javax.swing.JFrame implements Runnable{
     private javax.swing.JTextField txtPadecimiento;
     private javax.swing.JTextField txtPeso;
     // End of variables declaration//GEN-END:variables
-
-    @Override
-    public void run() {
-        while(true){
-            try {
-                Socket socket = this.socketCliente.accept();
-            
-                InputStream inputStream = socket.getInputStream();
-                ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-                this.pacienteActual = (Paciente) objectInputStream.readObject();
-                
-                socket.close();
-            } 
-            catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage(), "¡¡ERROR!!", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
 }
