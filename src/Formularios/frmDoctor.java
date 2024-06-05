@@ -89,14 +89,32 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jtPacientes = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
         lblDireccionIPYSocket = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         lblServidor = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtPacientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        lblDireccionIPYSocket.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        lblDireccionIPYSocket.setForeground(new java.awt.Color(0, 0, 0));
+        lblDireccionIPYSocket.setText("Dirección IP / Socket:");
+
+        lblUsuario.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
+        lblUsuario.setText("Doctor:");
+
+        lblServidor.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
+        lblServidor.setForeground(new java.awt.Color(0, 0, 0));
+        lblServidor.setText("Servidor:");
+
+        jtPacientes.setBackground(new java.awt.Color(255, 255, 255));
+        jtPacientes.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         jtPacientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -115,45 +133,48 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
         });
         jScrollPane1.setViewportView(jtPacientes);
 
-        lblDireccionIPYSocket.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblDireccionIPYSocket.setText("Dirección IP / Socket:");
-
-        lblUsuario.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblUsuario.setText("Usuario:");
-
-        lblServidor.setText("Servidor:");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblDireccionIPYSocket)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblServidor)
+                        .addGap(125, 125, 125))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblUsuario)
+                    .addComponent(lblServidor))
+                .addGap(12, 12, 12)
+                .addComponent(lblDireccionIPYSocket)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblDireccionIPYSocket)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblServidor)
-                        .addGap(93, 93, 93))))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblUsuario)
-                    .addComponent(lblServidor))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDireccionIPYSocket)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -195,6 +216,7 @@ public class frmDoctor extends javax.swing.JFrame implements Runnable {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtPacientes;
     private javax.swing.JLabel lblDireccionIPYSocket;

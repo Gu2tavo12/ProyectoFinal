@@ -61,58 +61,84 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblDirecciónIP = new javax.swing.JLabel();
-        lblNumeroSocket = new javax.swing.JLabel();
-        lblUbicacion = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        btnResumen = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         Pane1 = new javax.swing.JScrollPane();
         txtMensajes = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        btnResumen = new javax.swing.JButton();
+        lblNumeroSocket = new javax.swing.JLabel();
+        lblDirecciónIP = new javax.swing.JLabel();
+        lblUbicacion = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
-        lblDirecciónIP.setText("Dirección IP:");
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        lblNumeroSocket.setText("Número de Socket:");
+        txtMensajes.setBackground(new java.awt.Color(255, 255, 255));
+        txtMensajes.setColumns(20);
+        txtMensajes.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        txtMensajes.setForeground(new java.awt.Color(0, 0, 0));
+        txtMensajes.setRows(5);
+        txtMensajes.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        Pane1.setViewportView(txtMensajes);
 
-        lblUbicacion.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        lblUbicacion.setText("Ubicación del servidor:");
-
+        jLabel1.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Acciones y mensajes de BlockChain:");
 
+        btnResumen.setBackground(new java.awt.Color(204, 0, 0));
+        btnResumen.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        btnResumen.setForeground(new java.awt.Color(255, 255, 255));
         btnResumen.setText("Resumen");
+        btnResumen.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnResumen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnResumenActionPerformed(evt);
             }
         });
 
-        txtMensajes.setColumns(20);
-        txtMensajes.setRows(5);
-        Pane1.setViewportView(txtMensajes);
+        lblNumeroSocket.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        lblNumeroSocket.setForeground(new java.awt.Color(0, 0, 0));
+        lblNumeroSocket.setText("Número de Socket:");
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        lblDirecciónIP.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        lblDirecciónIP.setForeground(new java.awt.Color(0, 0, 0));
+        lblDirecciónIP.setText("Dirección IP:");
+
+        lblUbicacion.setFont(new java.awt.Font("Montserrat", 0, 24)); // NOI18N
+        lblUbicacion.setForeground(new java.awt.Color(0, 0, 0));
+        lblUbicacion.setText("Ubicación del servidor:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblUbicacion)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(btnResumen)
-                            .addComponent(lblDirecciónIP)
                             .addComponent(lblNumeroSocket))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(391, 403, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Pane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblUbicacion)
+                                    .addComponent(lblDirecciónIP))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblUbicacion)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -120,12 +146,23 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblNumeroSocket)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnResumen)
-                .addGap(13, 13, 13)
+                .addComponent(btnResumen, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                .addComponent(Pane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -262,6 +299,7 @@ public class frmServidor extends javax.swing.JFrame implements Runnable {
     private javax.swing.JScrollPane Pane1;
     private javax.swing.JButton btnResumen;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblDirecciónIP;
     private javax.swing.JLabel lblNumeroSocket;
     private javax.swing.JLabel lblUbicacion;
