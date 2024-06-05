@@ -14,7 +14,7 @@ public class frmInicio extends javax.swing.JFrame {
     /**
      * Creates new form frmInicio
      */
-    int contador;
+    byte contador;
     
     public frmInicio() {
         initComponents();        

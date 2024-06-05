@@ -43,7 +43,7 @@ public class frmRecepcionista extends javax.swing.JFrame{
         this.nodeData = nodoCliente;
         this.lblDireccionIPYSocket.setText("IP: " + this.nodeData.getDireccionIP() + ". Socket: " + this.nodeData.getNumeroDeSocket());
         this.lblUsuario.setText(this.nodeData.getNombreDelNodo());
-        this.iniciarCliente();        
+        this.iniciarCliente(); 
     }
     
     public boolean enviarTransaccion(){
