@@ -152,7 +152,7 @@ public class frmRecepcionista extends javax.swing.JFrame{
         txtPadecimiento.setForeground(new java.awt.Color(0, 0, 0));
 
         txtFechaDeNacimiento.setForeground(new java.awt.Color(0, 0, 0));
-        txtFechaDeNacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
+        txtFechaDeNacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         txtFechaDeNacimiento.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
 
         txtPeso.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
